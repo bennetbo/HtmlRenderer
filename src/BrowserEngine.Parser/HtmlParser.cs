@@ -1,8 +1,6 @@
-﻿using BrowserEngine.Dom;
+﻿namespace BrowserEngine.Parser;
 
-namespace BrowserEngine.Parser;
-
-public class HtmlParser : ParserBase
+internal class HtmlParser : ParserBase
 {
   private const char OpeningTag = '<';
   private const char ClosingTag = '>';
@@ -14,7 +12,7 @@ public class HtmlParser : ParserBase
   {
     var nodes = ParseNodes();
 
-    if(nodes.Count == 1)
+    if (nodes.Count == 1)
       return nodes[0];
 
     return new ElementNode(new ElementData("html"), nodes);
@@ -68,7 +66,7 @@ public class HtmlParser : ParserBase
 
     string value = ConsumeWhile(c => c != quotes);
 
-    if(quotes == ConsumeChar())
+    if (quotes == ConsumeChar())
       ThrowMissingCharacter(quotes, Position);
 
     return value;

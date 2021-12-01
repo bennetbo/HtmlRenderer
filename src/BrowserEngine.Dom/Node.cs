@@ -2,8 +2,8 @@
 
 public abstract record Node
 {
+  public NodeType Type { get; }
   public List<Node> Children { get; }
-  public NodeType Type { get; init; }
 
   public Node(NodeType type)
   {

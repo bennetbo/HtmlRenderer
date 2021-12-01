@@ -1,6 +1,6 @@
 ﻿namespace BrowserEngine.Parser;
 
-public abstract class ParserBase
+internal abstract class ParserBase
 {
   public int Position { get; private set; }
   public string Input { get; }
@@ -15,6 +15,8 @@ public abstract class ParserBase
   public ReadOnlySpan<char> Rest => Input.AsSpan()[Position..];
 
   public bool StartsWith(string str) => Rest.StartsWith(str);
+
+  public void SkipChar() => Position++;
 
   public char ConsumeChar()
   {
@@ -41,9 +43,9 @@ public abstract class ParserBase
 
   public void ConsumeWhitespace() => SkipWhile(char.IsWhiteSpace);
 
-  //TODO
-  public void ThrowMissingCharacter(char c, int pos) => throw new Exception($"Expected {c} at {pos}.");
-  public void ThrowMissingTag(string c, int pos) => throw new Exception($"Expected tag {c} at {pos}.");
+  public static void ThrowMissingCharacter(char c, int pos) => ThrowParseException($"Expected {c} at {pos}.");
+  public static void ThrowMissingTag(string c, int pos) => ThrowParseException($"Expected tag {c} at {pos}.");
+  public static void ThrowParseException(string msg) => throw new ParseException(msg);
 
   public void ConsumeAndThrowIfNot(char c)
   {
